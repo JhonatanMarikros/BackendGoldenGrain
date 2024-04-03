@@ -1,0 +1,697 @@
+/* Mengatur ulang margin, padding, font, dan menyembunyikan overflow horizontal */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+header{
+    position: fixed;
+    z-index: 99999;
+}
+
+/* style untuk alamat */
+.alamat{
+    position: relative;
+    left: 100px;
+    font-size: 11px;
+}
+
+/* style untuk header */
+header {
+    position: relative;
+    z-index: 1000;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all .50s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-top: 1px solid gainsboro;
+}
+
+/* style untuk logo */
+.logo {
+    display: flex;
+    position: relative;
+    height: 100px;
+    right: 20px;
+    padding-left: 60px;
+    padding-right: 90px;
+}
+
+/* style untuk navbar */
+.navbar {
+    position: relative;
+    top: 0;
+    left: 120px;
+    width: 100%;
+    background-color: transparent;
+    padding: 15px 0;
+}
+
+/* Kontainer untuk item-item navbar */
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* style untuk daftar dalam navbar */
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* style untuk item-item navbar */
+.nav-list li {
+    margin-right: 70px; 
+}
+
+/* style untuk link dalam navbar */
+.nav-list a {
+    text-decoration: none;
+    font-size: 14px;
+    color: black;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Efek hover untuk tautan dalam navbar */
+.nav-list a:hover {
+    color: #ffc107; /* Warna saat tautan dihover */
+}
+
+/* style tambahan untuk elemen navbar */
+.nav1, .nav2 {
+    display: flex;
+    align-items: center;
+}
+
+/* style untuk bagian halaman 1 */
+.page1{  
+    min-height: 10vh;
+    display: flex;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    background-image: url(img/home.jpg);
+    height: 500px;
+}
+
+/* style untuk kontainer carousel */
+.carousel {
+    padding-top: 20px;
+    width: 1500px;
+    height: 635px;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+
+}
+
+/* style untuk slide dalam carousel */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+
+
+}
+
+/* style untuk slide individual */
+.slide {
+    min-width: 100%;
+    overflow: hidden;
+
+}
+
+/* style untuk gambar dalam slide */
+.slide img {
+    width: 100%;
+    height: auto;
+
+}
+
+/* style untuk tombol sebelumnya dan selanjutnya dalam carousel */
+#prev,
+#next {
+    position: absolute;
+    top: 400px;
+    font-size: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 8px;
+    color: black;
+    font-style: bold;
+    user-select: none;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+
+/* Efek hover untuk tombol sebelumnya dan selanjutnya */
+#prev:hover,
+#next:hover {
+    transform: scale(1.7);
+}
+
+/* style untuk tombol sebelumnya */
+#prev {
+    left: 35px;
+}
+
+/* style untuk tombol selanjutnya */
+#next {
+    right: 35px;
+}
+
+/* style untuk bagian halaman 2 */
+.page2{
+    margin-bottom: 50px;
+}
+
+/* style untuk judul dalam halaman 2 */
+.page2 h4{
+    text-align: center; 
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 30px;
+}
+.page2 h3{
+    text-align: center;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #bea493;
+}
+
+/* style untuk garis dekoratif pada judul halaman 2 */
+.page2 .hot h3::before,
+.page2 .hot h3::after {
+    content: "";
+    display: inline-block;
+    width: 100px; 
+    border-top: 19px solid #fff1e7; 
+    margin: 0 15px; 
+}
+
+/* style untuk bagian rekomendasi */
+.rec{
+    max-width: 1300px;
+    width: 100%;
+    position: relative;
+    left: 100px;
+}
+
+/* style untuk pembungkus slider */
+.slider-wrapper{
+    position: relative;
+}
+
+/* style untuk tombol slider */
+.slider-wrapper .slide-button{
+    position: absolute;
+    top: 50%;
+    height: 50px;
+    width: 50px;
+    color: #fff;
+    border: none;
+    outline: none;
+    background: #000;
+    font-size: 2.2rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+ }
+
+ /* Hover effect untuk tombol slider */
+.slider-wrapper .slide-button:hover{
+    background: #444;
+}
+
+/* style untuk tombol slide sebelumnya */
+.slider-wrapper .slide-button#sebelum-slide{
+    left: -20px;
+    display: none;
+}
+/* style untuk tombol slide selanjutnya */
+.slider-wrapper .slide-button#lanjut-slide{
+    right: -5px;
+}
+/* style untuk daftar gambar dalam slider */
+ .slider-wrapper .image-list{
+    position: relative;
+    display: grid;
+    gap: 30px;
+    font-size: 0;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    grid-template-columns: repeat(10,1fr);
+}
+/* Menyembunyikan scrollbar untuk daftar gambar */
+.slider-wrapper .image-list::-webkit-scrollbar{
+    display: none;
+}
+/* style untuk gambar */ 
+.slider-wrapper .image-list .image-item{
+    width:300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+/* style untuk scrollbar slider */
+.rec .slider-scrollbar{
+    height: 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* style untuk bagian halaman 3 */
+.page3{
+    margin-bottom: 70px;
+}
+
+/* style untuk judul dalam halaman 3 */
+.page3 h4{
+    text-align: center; 
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 30px;
+}
+.page3 h3{
+    text-align: center;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #bea493;
+}
+
+/* style untuk garis dekoratif pada judul halaman 3 */
+.page3 .hot h3::before,
+.page3 .hot h3::after {
+    content: "";
+    display: inline-block;
+    width: 100px; 
+    border-top: 19px solid #fff1e7; 
+    margin: 0 15px; 
+}
+
+/* style untuk kontainer2 */
+.container2{
+    width: 1100px;
+    height: 600px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* style untuk daftar gambar */
+.gambarlist{
+    margin-bottom: 10px;
+    padding-bottom: 100px;
+}
+
+
+/* style untuk gambar1 */
+.gambar1{
+    text-align: right;
+    position: relative;
+    left: 550px;
+}
+
+/* style untuk gambar2 */
+.gambar2{
+    position: relative;
+    bottom: 400px;
+    left: 270px;
+    border-radius: 10%;
+}
+
+/* style untuk gambar3 */
+.gambar3{
+    position: relative;
+    bottom: 360px;
+    left: 270px;
+
+}
+
+/* style untuk gambar4 */
+.gambar4{
+    position: relative;
+    bottom: 760px;
+    right: 70px;
+}
+
+/* style untuk bagian site-footer */
+.site-footer .row {
+    background-color: orange;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 20px 50px 50px 50px;
+    margin: -8px -8px 0px -8px;
+}
+
+/* style untuk kolom-md-3 dalam site-footer */    
+.site-footer .col-md-3 {
+    width: calc(25% - 30px); 
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* style untuk gambar delivery*/
+.delivery .image img {
+    width: 75px; 
+    height: auto;
+    border-radius: 5px;
+}
+
+/* style untuk icon sosial media */
+.social-icons img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+/* style untuk delivery, tentang kami, dan social media dalam footer */
+.delivery h3 , .tentang-kami h3, .faq h3, .social-media h3 {
+    margin-bottom: 15px;
+    color: yellow;
+    opacity: 0.7;
+}
+
+/* style untuk isi delivery, tentang kami, dan social media dalam footer */
+.delivery p , .tentang-kami p, .faq p, .social-media p{
+    color: white;
+    font-size: 13px;
+}
+
+/* style untuk isi dalam tentang-kami dan faq */
+.tentang-kami p, .faq p {
+    margin-bottom: 15px;
+}
+
+/* style untuk icon sosial .social-media*/
+.social-icons i {
+    position: relative;
+    left: 20px;
+    font-size: 30px; 
+    margin-right: 40px; 
+}
+
+/* style untuk penanda akhir */
+.by{
+    color: white;
+    font-size: 10px;
+    margin-top: 35px;
+}
+
+
+/* about us */
+
+.section-aboutus{
+    padding-top: 49px;
+}
+
+.aboutuspict img{
+    width: 99%;
+    margin-left: 7px;
+    margin-top: 20px;
+}
+.aboutuscontainer{
+    row-gap: 2rem;
+    align-items: center;
+    text-align: left;
+    max-width: 1000px;
+    display: grid;
+    grid-column-gap: 2rem;
+    width: calc(100% - 0rem);
+    position: relative;
+    left: 280px;
+}
+.aboutus-text{
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    text-align: left;
+    display: grid;
+    grid-column-gap: 2rem;
+    width: calc(100% - 0rem);
+    margin-bottom: 50px;
+}
+.aboutus-text h1{
+    font-weight: 300;
+}
+.abouttitle{
+    display: flex;
+    align-items: center;
+}
+.abouttitle h5{
+    margin-left: 20px;
+    font-size: var(--normal-font-size);
+    margin-top: 0;
+    margin-bottom: 0;
+    color: orange;
+    font-weight: 500;
+}
+.abouttitle hr{
+    width: 100px;
+    height: 0;
+    border: 2px solid orange;
+    margin: 0;
+}
+.section-filosofi{
+    padding-top: 100px;
+}
+
+
+/* the creation */
+
+.banner-creations h2{
+    text-align: center;
+}
+
+.banner-creations{
+    background-color: orange;
+    height: 200px;
+}
+.banner-creations .findus-creations h2{
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 20px;
+    text-align: center; 
+    margin-right: 20px;
+    padding-top: 30px;
+}
+.banner-creations .text-creations h2{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #bea493;
+    text-align: center;
+    margin-top: 30px;
+}
+.store-creations {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    width: 70%;
+}
+
+.title-creations h2{
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 30px;
+    margin-left: 465px;
+}
+
+.title-creations h3{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #bea493;
+    margin: 20px 0px 0px 470px;
+}
+
+.store-cards {  
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    margin-left: 20px;
+}
+
+.store-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    width: 30%;
+    margin-left: 20px;
+}
+
+.store-card img {
+    width: 300px;
+    margin: 0 auto;
+    position: relative;
+    right: 15px;
+    background-size: cover;
+}
+
+.store-card p{
+    margin-top: 20px;
+    text-align: justify;
+}
+
+
+
+/* location */
+
+.location h2{
+    text-align: center;
+}
+
+.banner{
+    background-color: orange;
+    height: 200px;
+}
+.banner .findus h2{
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 20px;
+    text-align: center; 
+    margin-right: 20px;
+    padding-top: 30px;
+}
+.banner .text h2{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #bea493;
+    text-align: center;
+    margin-top: 30px;
+}
+.store-locations {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    width: 70%;
+}
+
+
+.title h2{
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 30px;
+    margin-left: 465px;
+}
+
+.title h3{
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    color: #bea493;
+    margin: 20px 0px 0px 470px;
+}
+
+.store-cards {  
+    display: flex;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    margin-left: 20px;
+}
+
+.store-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    width: 30%;
+    margin-left: 20px;
+}
+
+.store-card img {
+    width: 300px;
+    margin: 0 auto;
+    position: relative;
+    right: 15px;
+    background-size: cover;
+}
+
+.store-card p{
+    margin-top: 20px;
+    text-align: justify;
+}
+
+
+/* contact us */
+
+.fordelivery{
+    text-align: center;
+    background-color: orange;
+    height: 200px;
+}
+.fordelivery h1{ 
+    padding-top: 40px;
+    font-family: "Whisper", cursive;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 30px;
+}
+
+.fordelivery h2{
+    font-family: "Madimi One", sans-serif;
+}
+
+.contact-us h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: 5px;
+}
+
+.socialmedia{
+    display: flex;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.socialmedia img{
+    width: 300px;
+    height: 300px;
+    margin-left: 500px;
+}
+
+.social-media-icons  {  
+    color: #000;
+}
+
+.socialmedia .contactusinfo{
+    margin-top: 100px;
+    display: block;
+}
+
+
+
+
