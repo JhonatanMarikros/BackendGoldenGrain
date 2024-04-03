@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Golden Grain</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Whisper&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Madimi+One&family=Whisper&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="alamat">
+        Jl. Letjen S. Parman No.1 3, RT.3/RW.8, Tomang, Kec. Grogol petamburan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11440
+    </div>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <div class="nav1">
+                        <li><a href="#">HOME</a></li>
+                        <li><a href="#">ABOUT US</a></li>
+                        <li><a href="#">THE CREATIONS</a></li>
+                    </div>
+                    <div class="logo">
+                        <img src="/img/logo.jpg" alt="logo">
+                    </div>
+                    <div class="nav2">
+                        <li><a href="#">LOCATION</a></li>
+                        <li><a href="#">CONTACT US</a></li>
+                        <li><a href="#">News & Promo</a></li>
+                    </div>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    
+
+  <div class="carousel">
+    <div class="slides">
+        <div class="slide">
+            <img src="/img/banner3.jpg" alt="Slide 1">
+        </div>
+        <div class="slide">
+            <img src="/img/banner2.jpg" alt="Slide 2">
+        </div>
+        <div class="slide">
+            <img src="/img/banner.jpg" alt="Slide 3">
+        </div>
+    </div>
+</div>
+
+<div id="prev">&lt;</div>
+<div id="next">&gt;</div>
+
+<br><br>
+<br><br>
+
+<!-- HARUS ADA DISINI GTAU KENAPA KALO DI FILE JS RUSAK, GAJELAS NIH -->
+<script>
+    const carousel = document.querySelector('.carousel');
+    const slides = document.querySelector('.slides');
+    const slideItems = document.querySelectorAll('.slide');
+    const prevButton = document.getElementById('prev');
+    const nextButton = document.getElementById('next');
+
+    let currentIndex = 0;
+    const slideWidth = slideItems[0].clientWidth;
+    const autoSlideInterval = 2000; // Waktu dalam milidetik antara perpindahan otomatis
+
+    function updateSlidePosition() {
+        slides.style.transform = `translateX(${-currentIndex * slideWidth}px)`;
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slideItems.length;
+        updateSlidePosition();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slideItems.length) % slideItems.length;
+        updateSlidePosition();
+    }
+
+    function autoSlide() {
+        nextSlide();
+    }
+
+    nextButton.addEventListener('click', () => {
+        clearInterval(autoSlideIntervalId); // Menghentikan perpindahan otomatis saat tombol next diklik
+        nextSlide();
+    });
+
+    prevButton.addEventListener('click', () => {
+        clearInterval(autoSlideIntervalId);
+        prevSlide();
+    });
+
+    let autoSlideIntervalId = setInterval(autoSlide, autoSlideInterval);
+
+    // Menambahkan event listener untuk menghentikan perpindahan otomatis saat hover pada carousel
+    carousel.addEventListener('mouseenter', () => {
+        clearInterval(autoSlideIntervalId);
+    });
+
+    // Menambahkan event listener untuk melanjutkan perpindahan otomatis saat keluar dari hover pada carousel
+    carousel.addEventListener('mouseleave', () => {
+        autoSlideIntervalId = setInterval(autoSlide, autoSlideInterval);
+    });
+
+</script>
+
+    <div class="page2">
+        <h4> Recomendation Product </h4>
+        <section class="hot">
+
+            <h3> Hot Product </h3>
+        </section>
+    </div>
+
+    <div class="rec">
+        <div class="slider-wrapper">
+            <button id="sebelum-slide" class="slide-button material-symbols-rounded">chevron_left</button>
+            <div class="image-list">
+                <img src="img/pastry1.jpg" alt="img1" class="image-item">
+                <img src="img/pastry2.jpg" alt="img2" class="image-item">
+                <img src="img/pastry3.jpg" alt="img3" class="image-item">
+                <img src="img/pastry4.jpg" alt="img4" class="image-item">
+                <img src="img/pastry5.jpg" alt="img5" class="image-item">
+                <img src="img/pastry6.jpg" alt="img6" class="image-item">
+                <img src="img/pastry7.jpg" alt="img7" class="image-item">
+                <img src="img/pastry8.jpg" alt="img8" class="image-item">
+                <img src="img/pastry9.jpg" alt="img9" class="image-item">
+                <img src="img/pastry10.jpg" alt="img10" class="image-item">
+
+            </div>
+            <button id="lanjut-slide" class="slide-button material-symbols-rounded">chevron_right</button>
+
+        </div>
+        <div class="slider-scrollbar">
+            <div class="scrollbar-track">
+                <div class="scrollbar-thumb"></div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container2">
+        <div class="page3">
+            <h4> People Must Happy</h4>
+            <section class="hot">
+    
+                <h3> OFFER THIS WEEK </h3>
+            </section>
+        </div>
+        
+            <img src="/img/gb2.jpg" class="gambar1" height="400px" width="600px" >
+            
+
+        <div class="gambar2">
+            <img src="/img/gb3.jpg" height="180px" width="250px">
+        </div>
+
+        <div class="gambar3">
+            <img src="/img/gb1.jpg" height="180px" width="250px">
+        </div>
+
+        <div class="gambar4">
+            <img src="/img/gb4.jpg" height="400px" width="320px">
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container3">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="delivery">
+                        <h3>Delivery Service</h3>
+                        <div class="image">
+                            <img src="/img/gofood.jpg">
+                            <img src="/img/grabfood.jpg">
+                            <img src="/img/shopee.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tentang-kami">
+                        <h3>Golden Grain</h3>
+                        <p>Jl. Letjen S. Parman No.1 3, RT.3/RW.8, Tomang, Kec. Grogol petamburan, Kota Jakarta Barat,
+                            Daerah Khusus Ibukota Jakarta 11440</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="kontak">
+                        <h3>FAQ</h3>
+                        <p>Frequently Asked Question</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="social-media">
+                        <h3>Social Media</h3>
+                        <div class="social-icons">
+                            <span class="facebook"><i class="ri-facebook-line"></i></span>
+                            <span class="instagram"><i class="ri-instagram-line"></i></span>
+                        </div>
+                        <div class="by">
+                            @2024 Powered by Golden Grain.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>
