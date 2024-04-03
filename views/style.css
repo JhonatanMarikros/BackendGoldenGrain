@@ -571,7 +571,7 @@ header {
     font-family: "Whisper", cursive;
     font-weight: 900;
     font-style: normal;
-    font-size: 20px;
+    font-size: 35px;
     text-align: center; 
     margin-right: 20px;
     padding-top: 30px;
@@ -580,7 +580,7 @@ header {
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
     font-style: normal;
-    color: #bea493;
+    color: yellow;
     text-align: center;
     margin-top: 30px;
 }
@@ -656,6 +656,12 @@ header {
 
 .fordelivery h2{
     font-family: "Madimi One", sans-serif;
+    color: yellow;
+}
+
+.fordelivery .number{
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .contact-us h2 {
