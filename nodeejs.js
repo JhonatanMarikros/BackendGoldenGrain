@@ -13,6 +13,10 @@ app.get('/home', (request, response)=>{
     response.render('index', {title: 'Golden Grain'});
 })
 
+app.get('/aboutus', (request, response)=>{
+    response.render('aboutus', {title: 'About Us'});
+})
+
 app.get('/creations', (request,response)=>{
     response.render('creations', {title: 'The Creations'})
 })
