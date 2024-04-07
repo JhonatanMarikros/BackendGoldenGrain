@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+}
+
+.container {
+    width: 450px;
+    height: 450px;
+    margin: 100px auto;
+    background-color: white;
+    box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, .5);
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+}
+
+.header {
+    text-align: center;
+    line-height: 80px;
+    font-size: 25px;
+}
+
+.mb-3 {
+    margin-left: 5px;
+}
+
+button {
+    width: 200px;
+    height: 30px;
+    margin-left: 120px;
+    margin-top: 10px;
+    box-shadow: 5px 5px 5px 2px rgb(0, 0, 0, .5);
+}
