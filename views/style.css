@@ -94,6 +94,10 @@ header {
     align-items: center;
 }
 
+.ri-user-line{
+    font-size: 25px; 
+}
+
 /* style untuk bagian halaman 1 */
 .page1{  
     min-height: 10vh;
@@ -689,6 +693,7 @@ p {
 
 .social-media-icons  {  
     color: #000;
+    font-size: 30px; 
 }
 
 .socialmedia .contactusinfo{
