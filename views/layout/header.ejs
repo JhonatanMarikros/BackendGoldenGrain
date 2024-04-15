@@ -14,9 +14,9 @@
                 </div>
                 <!-- Link navigasi 2 -->
                 <div class="nav2">
-                    <li><a href="/location">LOCATION</a></li>
                     <li><a href="/contactus">CONTACT US</a></li>
-                    <li><a href="/promo">News & Promo</a></li>
+                    <li><a href="/promo">NEWS & PROMO</a></li>
+                    <li><a href="/shopnow">SHOP NOW</a></li>
                     <% if (user) { %> <!-- Tambahkan kondisi ini untuk memeriksa apakah ada pengguna yang login -->
                         <li><a href="/register"><i class="ri-user-line"></i> <%= user.name %></a></li>
                     <% } else { %> <!-- Jika tidak ada pengguna yang login, tampilkan tombol login -->
@@ -25,7 +25,6 @@
                     <% if (user) { %>
                         <li><a href="/logout"><i class="ri-logout-box-r-line"></i> Logout</a></li>
                     <% } %>
-                    
                 </div>
             </ul>
         </nav>
