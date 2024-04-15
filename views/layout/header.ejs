@@ -14,10 +14,18 @@
                 </div>
                 <!-- Link navigasi 2 -->
                 <div class="nav2">
+                    <li><a href="/location">LOCATION</a></li>
                     <li><a href="/contactus">CONTACT US</a></li>
                     <li><a href="/promo">News & Promo</a></li>
-                    <li><a href="/shopnow">Shop Now</a></li>
-                    <li><a href="/register"><i class="ri-user-line"></i></a></li>
+                    <% if (user) { %> <!-- Tambahkan kondisi ini untuk memeriksa apakah ada pengguna yang login -->
+                        <li><a href="/register"><i class="ri-user-line"></i> <%= user.name %></a></li>
+                    <% } else { %> <!-- Jika tidak ada pengguna yang login, tampilkan tombol login -->
+                        <li><a href="/register"><i class="ri-user-line"></i> LOGIN</a></li>
+                    <% } %>
+                    <% if (user) { %>
+                        <li><a href="/logout"><i class="ri-logout-box-r-line"></i> Logout</a></li>
+                    <% } %>
+                    
                 </div>
             </ul>
         </nav>

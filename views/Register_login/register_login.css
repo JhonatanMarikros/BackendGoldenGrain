@@ -4,7 +4,7 @@ body {
 
 .container {
     width: 450px;
-    height: 450px;
+    height: 500px;
     margin: 100px auto;
     background-color: white;
     box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, .5);
@@ -28,4 +28,23 @@ button {
     margin-left: 120px;
     margin-top: 10px;
     box-shadow: 5px 5px 5px 2px rgb(0, 0, 0, .5);
+}
+
+
+.footer {
+    text-align: center;
+    margin-top: 20px; /* Sesuaikan dengan jarak yang diinginkan */
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer a {
+    color: blue;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }
