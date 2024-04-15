@@ -51,6 +51,7 @@ app.set('view engine', 'ejs');
 //Mengambil css nya agar bisa digunakan ke html/ejs
 app.use(express.static('views'));
 app.use(express.static('views/Register_login'));
+app.use(express.static('views/cart'));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
@@ -78,8 +79,8 @@ app.get('/creations', (request,response)=>{
     response.render('creations', {title: 'The Creations', user: request.user})
 })
 
-app.get('/location', (request,response)=>{
-    response.render('location', {title: 'Location', user: request.user})
+app.get('/shopnow', (request,response)=>{
+    response.render('cart/shopnow', {title: 'Shop Now', user: request.user})
 })
 
 app.get('/promo', (request,response)=>{
@@ -90,6 +91,9 @@ app.get('/contactus', (request,response)=>{
     response.render('contactus', {title: 'Contact Us', user: request.user})
 })
 
+app.get('/location', (req,res)=>{
+    res.render('location', {title: 'Location', user: req.user})
+})
 
 //get Register and login
 app.get('/register', (request,response)=>{
@@ -139,5 +143,5 @@ app.get('/logout', (req, res) => {
 
 
 app.listen(port, ()=>{
-    console.log("Server menyala di port 3000");
+    console.log("Server menyala di port 3000");
 })
