@@ -544,6 +544,10 @@ header {
     text-align: center;
     width: 20%;
     margin-left: 20px;
+    cursor: pointer;
+}
+.store-card :hover{
+    transform: scale(0.98);
 }
 
 .store-card img {
@@ -700,7 +704,3 @@ p {
     margin-top: 100px;
     display: block;
 }
-
-
-
-

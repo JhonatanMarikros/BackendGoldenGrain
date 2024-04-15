@@ -34,3 +34,53 @@ const initSlider = () => {
 
 // Menginisialisasi slider saat window dimuat
 window.addEventListener("load", initSlider);
+
+function showCustomPopup(card) {
+    var customPopup = document.getElementById("custom-popup");
+    var popupImage = document.getElementById("popup-image");
+    var popupPrice = document.getElementById("popup-price");
+    
+    // Mendapatkan konten dari store card yang diklik
+    var cardImage = card.querySelector("img").src;
+    var cardPrice = card.querySelector(".harga-store h5").innerText;
+    
+    // Mengisi konten popup dengan konten dari store card yang diklik
+    popupImage.src = cardImage;
+    popupPrice.innerText = cardPrice;
+    
+    customPopup.style.display = "block";
+    popupImage.style.width = "330px";
+}
+
+function closeCustomPopup() {
+    var customPopup = document.getElementById("custom-popup");
+    customPopup.style.display = "none";
+}
+
+function addToCartFromPopup() {
+    // Mendapatkan informasi produk dari popup
+    var productInfo = document.getElementById("popup-price").innerText;
+
+    // Lakukan apa pun yang diperlukan dengan informasi produk, misalnya tambahkan ke cart
+    // Di sini Anda bisa menambahkan logika untuk menambahkan produk ke cart Anda
+    console.log("Produk ditambahkan ke cart:", productInfo);
+
+    // Tutup popup setelah menambahkan ke cart
+    closeCustomPopup();
+}
+
+function removeFromCart() {
+    // Lakukan apa pun yang diperlukan untuk menghapus produk dari cart
+    // Di sini Anda bisa menambahkan logika untuk menghapus produk dari cart Anda
+
+    // Tambahkan logika untuk menghapus produk dari cart
+
+    // Tutup popup setelah menghapus dari cart
+    closeCustomPopup();
+}
+
+// Simpan data ke localStorage
+localStorage.setItem('cart', JSON.stringify(cartData));
+
+// Ambil data dari localStorage
+const cartData = JSON.parse(localStorage.getItem('cart'));

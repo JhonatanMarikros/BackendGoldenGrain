@@ -12,6 +12,7 @@ const session = require('express-session');
 // //MongoDB user
 const User = require('./views/Register_login/schema_register/schema');
 require('./views/Register_login/db_config/mongoose')
+// MONGODB CART
 
 
 
@@ -50,6 +51,7 @@ app.set('view engine', 'ejs');
 //Mengambil css nya agar bisa digunakan ke html/ejs
 app.use(express.static('views'));
 app.use(express.static('views/Register_login'));
+app.use(express.static('views/cart'));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
@@ -75,6 +77,10 @@ app.get('/aboutus', (request, response)=>{
 
 app.get('/creations', (request,response)=>{
     response.render('creations', {title: 'The Creations'})
+})
+
+app.get('/shopnow', (request,response)=>{
+    response.render('cart/shopnow', {title: 'Shop Now'})
 })
 
 app.get('/location', (request,response)=>{
@@ -129,8 +135,7 @@ app.post('/login', passport.authenticate('local', {
     res.redirect('/');
 });
 
-
-
 app.listen(port, ()=>{
     console.log("Server menyala di port 3000");
 })
+
