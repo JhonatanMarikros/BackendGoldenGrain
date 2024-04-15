@@ -12,7 +12,7 @@ const session = require('express-session');
 // //MongoDB user
 const User = require('./views/Register_login/schema_register/schema');
 require('./views/Register_login/db_config/mongoose')
-// MONGODB CART
+// MONGODB CART DI DALEM APP.POST HARUS BISA MASUKIN SCHEMA 
 
 
 
