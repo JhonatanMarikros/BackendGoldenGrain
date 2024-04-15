@@ -1,3 +1,6 @@
+const User = require('./schema_register/schema');
+
+
 // passport-config.js
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
@@ -33,9 +36,14 @@ function initialize(passport, getUserByEmail, getUserById) {
     passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
     passport.serializeUser((user, done) => done(null, user.id));
     passport.deserializeUser(async (id, done) => {
-        const user = await getUserById(id);
-        return done(null, user);
+        try {
+            const user = await User.findById(id);
+            done(null, user);
+        } catch (error) {
+            done(error, null);
+        }
     });
+    
 }
 
 module.exports = initialize;

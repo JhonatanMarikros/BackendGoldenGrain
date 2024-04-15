@@ -6,13 +6,13 @@ if(process.env.NODE_ENV !== 'production'){
 const express = require('express');
 const app = express();
 const port = 3000;
+const path = require('path')
 const bcrypt = require('bcrypt');
 const flash = require('express-flash');
 const session = require('express-session');
 // //MongoDB user
 const User = require('./views/Register_login/schema_register/schema');
 require('./views/Register_login/db_config/mongoose')
-// MONGODB CART
 
 
 
@@ -64,39 +64,36 @@ function checkNotAuthenticated(req, res, next) {
 
 
 app.get('/', (request,response)=>{
-    response.render('index', {title: 'Golden Grain'});
+    response.render('index', { title: 'Golden Grain', user: request.user }); // request.user akan berisi informasi pengguna yang login
 })
 
 app.get('/home', (request, response)=>{
-    response.render('index', {title: 'Golden Grain'});
+    response.render('index', {title: 'Golden Grain', user: request.user});
 })
 
 app.get('/aboutus', (request, response)=>{
-    response.render('aboutus', {title: 'About Us'});
+    response.render('aboutus', {title: 'About Us', user: request.user});
 })
 
 app.get('/creations', (request,response)=>{
-    response.render('creations', {title: 'The Creations'})
+    response.render('creations', {title: 'The Creations', user: request.user})
 })
 
 app.get('/shopnow', (request,response)=>{
-    response.render('cart/shopnow', {title: 'Shop Now'})
-})
-
-app.get('/location', (request,response)=>{
-    response.render('location', {title: 'Location'})
+    response.render('cart/shopnow', {title: 'Shop Now', user: request.user})
 })
 
 app.get('/promo', (request,response)=>{
-    response.render('promo', {title: 'Promo'})
+    response.render('promo', {title: 'Promo', user: request.user})
 })
 
 app.get('/contactus', (request,response)=>{
-    response.render('contactus', {title: 'Contact Us'})
+    response.render('contactus', {title: 'Contact Us', user: request.user})
 })
 
-
-
+app.get('/location', (req,res)=>{
+    res.render('location', {title: 'Location', user: req.user})
+})
 
 //get Register and login
 app.get('/register', (request,response)=>{
@@ -106,6 +103,7 @@ app.get('/login', checkNotAuthenticated, (request,response)=>{
     response.render('Register_login/login', {title: 'Login'})
 })
 
+//Post Register
 app.post('/register', async(req, res)=>{
     try {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -135,7 +133,15 @@ app.post('/login', passport.authenticate('local', {
     res.redirect('/');
 });
 
+
+//Logout
+app.get('/logout', (req, res) => {
+    req.logout(() => {
+        res.redirect('/');
+    });
+});
+
+
 app.listen(port, ()=>{
     console.log("Server menyala di port 3000");
 })
-
