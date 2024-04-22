@@ -15,59 +15,100 @@ closeCart.addEventListener('click', () => {
     body.classList.toggle('showCart');
 })
 
-    const addDataToHTML = () => {
+const addDataToHTML = () => {
     // remove datas default from HTML
 
-        // add new datas
-        if(products.length > 0) // if has data
-        {
-            products.forEach(product => {
-                let newProduct = document.createElement('div');
-                newProduct.dataset.id = product.id;
-                newProduct.classList.add('item');
-                newProduct.innerHTML = 
+    // add new datas
+    if (products.length > 0) // if has data
+    {
+        products.forEach(product => {
+            let newProduct = document.createElement('div');
+            newProduct.dataset.id = product.id;
+            newProduct.classList.add('item');
+            newProduct.innerHTML =
                 `<img src="${product.image}" alt="">
                 <h2>${product.name}</h2>
                 <div class="price">$${product.price}</div>
                 <button class="addCart">Add To Cart</button>`;
-                listProductHTML.appendChild(newProduct);
-            });
-        }
+            listProductHTML.appendChild(newProduct);
+        });
     }
-    listProductHTML.addEventListener('click', (event) => {
-        let positionClick = event.target;
-        if(positionClick.classList.contains('addCart')){
-            let id_product = positionClick.parentElement.dataset.id;
-            addToCart(id_product);
-        }
-    })
-const addToCart = (product_id) => {
-    let positionThisProductInCart = cart.findIndex((value) => value.product_id == product_id);
-    if(cart.length <= 0){
-        cart = [{
-            product_id: product_id,
-            quantity: 1
-        }];
-    }else if(positionThisProductInCart < 0){
+}
+listProductHTML.addEventListener('click', (event) => {
+    let positionClick = event.target;
+    if (positionClick.classList.contains('addCart')) {
+        let id_product = positionClick.parentElement.dataset.id;
+        addToCart(id_product);
+    }
+})
+
+let isAddingToCart = false;
+
+// Fungsi untuk menambahkan barang ke keranjang dan mengirim ke server
+const addToCart = (productId) => {
+    let productInCart = cart.find((item) => item.product_id == productId);
+
+    if (productInCart) {
+        // Jika produk sudah ada di keranjang, hanya tingkatkan kuantitasnya sebanyak satu
+        productInCart.quantity += 1;
+    } else {
+        // Jika produk belum ada di keranjang, tambahkan sebagai item baru dengan kuantitas 1
         cart.push({
-            product_id: product_id,
+            product_id: productId,
             quantity: 1
         });
-    }else{
-        cart[positionThisProductInCart].quantity = cart[positionThisProductInCart].quantity + 1;
     }
+
+    // Memperbarui tampilan keranjang di HTML dan localStorage
     addCartToHTML();
-    
-}
+    addCartToMemory();
+
+    // Mengirim data ke server
+    sendCartData(productId, 1); // Kirim selalu 1 karena kita menambahkan satu produk pada suatu waktu
+};
+
+
+// Fungsi untuk mengirim data keranjang ke server
+const sendCartData = (productId, quantity) => {
+    fetch('/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // Pastikan Anda mengirimkan token atau sesi yang diperlukan untuk autentikasi jika diperlukan
+        },
+        body: JSON.stringify({
+            productId: productId,
+            quantity: quantity
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // atau `response.text()` jika server mengembalikan teks
+        })
+        .then(data => {
+            console.log('Item added to cart:', data);
+            // Anda bisa memperbarui tampilan keranjang di sini jika server mengembalikan data keranjang terbaru
+        })
+        .catch(error => {
+            console.error('Could not add item to cart:', error);
+        });
+};
+
+// Fungsi untuk memperbarui localStorage dengan data keranjang
 const addCartToMemory = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
-}
+    addCartToHTML();
+};
+
+
 const addCartToHTML = () => {
     listCartHTML.innerHTML = '';
     let totalQuantity = 0;
-    if(cart.length > 0){
+    if (cart.length > 0) {
         cart.forEach(item => {
-            totalQuantity = totalQuantity +  item.quantity;
+            totalQuantity = totalQuantity + item.quantity;
             let newItem = document.createElement('div');
             newItem.classList.add('item');
             newItem.dataset.id = item.product_id;
@@ -96,51 +137,126 @@ const addCartToHTML = () => {
 
 listCartHTML.addEventListener('click', (event) => {
     let positionClick = event.target;
-    if(positionClick.classList.contains('minus') || positionClick.classList.contains('plus')){
+    if (positionClick.classList.contains('minus') || positionClick.classList.contains('plus')) {
         let product_id = positionClick.parentElement.parentElement.dataset.id;
         let type = 'minus';
-        if(positionClick.classList.contains('plus')){
+        if (positionClick.classList.contains('plus')) {
             type = 'plus';
         }
         changeQuantityCart(product_id, type);
     }
 })
+
+
 const changeQuantityCart = (product_id, type) => {
     let positionItemInCart = cart.findIndex((value) => value.product_id == product_id);
-    if(positionItemInCart >= 0){
-        let info = cart[positionItemInCart];
-        switch (type) {
-            case 'plus':
-                cart[positionItemInCart].quantity = cart[positionItemInCart].quantity + 1;
-                break;
-        
-            default:
-                let changeQuantity = cart[positionItemInCart].quantity - 1;
-                if (changeQuantity > 0) {
-                    cart[positionItemInCart].quantity = changeQuantity;
-                }else{
-                    cart.splice(positionItemInCart, 1);
-                }
-                break;
+    if (positionItemInCart >= 0) {
+        if (type === 'plus') {
+            cart[positionItemInCart].quantity += 1;
+        } else {
+            if (cart[positionItemInCart].quantity > 1) {
+                cart[positionItemInCart].quantity -= 1;
+            } else {
+                // Jika kuantitas menjadi 0, hapus item dari array
+                cart.splice(positionItemInCart, 1);
+                // Juga hapus item dari keranjang di server
+                removeFromCart(product_id);
+                return; // Hentikan eksekusi fungsi lebih lanjut
+            }
         }
+        // Perbarui UI dan localStorage
+        addCartToHTML();
+        addCartToMemory();
+        // Kirim data yang diperbarui ke server
+        updateCartData(product_id, cart[positionItemInCart].quantity);
     }
-    addCartToHTML();
-    addCartToMemory();
-}
+};
+
+// Fungsi untuk mengirim data keranjang yang diperbarui ke server
+const updateCartData = (productId, quantity) => {
+    // Endpoint '/update-cart-item' harus ada di server Anda dan mampu menangani POST request untuk update
+    fetch('/update-cart-item', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // Tambahkan header untuk autentikasi jika diperlukan
+        },
+        body: JSON.stringify({
+            productId: productId,
+            quantity: quantity
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Cart updated:', data);
+    })
+    .catch(error => {
+        console.error('Could not update cart item:', error);
+    });
+};
+
+// Fungsi untuk menghapus item dari keranjang pada server
+const removeFromCart = (productId) => {
+    fetch('/remove-from-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Item removed from cart:', data);
+        // Hapus item dari array 'cart' di sisi klien
+        cart = cart.filter(item => item.product_id != productId);
+        // Update UI setelah penghapusan
+        addCartToHTML();
+        // Update localStorage
+        addCartToMemory();
+    })
+    .catch(error => {
+        console.error('Failed to remove item from cart:', error);
+    });
+};
+// document.addEventListener('click', (event) => {
+//     if (event.target.classList.contains('addCart')) {
+//         const productId = event.target.parentElement.dataset.id;
+//         const quantity = 1; // Misalnya setiap klik menambahkan satu item
+
+//         fetch('/add-to-cart', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({ productId, quantity })
+//         })
+
+//             .then(response => response.text())
+//             .then(data => {
+//                 console.log(data); // Log response dari server
+//             });
+//     }
+// });
+
 
 const initApp = () => {
     // get data product
     fetch('products.json')
-    .then(response => response.json())
-    .then(data => {
-        products = data;
-        addDataToHTML();
+        .then(response => response.json())
+        .then(data => {
+            products = data;
+            addDataToHTML();
 
-        // get data cart from memory
-        if(localStorage.getItem('cart')){
-            cart = JSON.parse(localStorage.getItem('cart'));
-            addCartToHTML();
-        }
-    })
+            // get data cart from memory
+            if (localStorage.getItem('cart')) {
+                cart = JSON.parse(localStorage.getItem('cart'));
+                addCartToHTML();
+            }
+        })
 }
 initApp();
