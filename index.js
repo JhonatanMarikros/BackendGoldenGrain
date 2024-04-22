@@ -148,7 +148,7 @@ app.post('/add-to-cart', async (req, res) => {
     }
 
     const { productId, quantity } = req.body;
-    const userId = req.user._id.toString(); // Pastikan ini adalah ID yang benar
+    const userId = req.user._id.toString();
 
     try {
         let cart = await Cart.findOne({ userId: userId });
@@ -159,7 +159,6 @@ app.post('/add-to-cart', async (req, res) => {
                 items: [{ productId, quantity }]
             });
         } else {
-            // Sebelum memodifikasi keranjang, lakukan pemeriksaan ganda untuk memastikan produk belum ditambahkan
             let itemIndex = cart.items.findIndex(item => item.productId === productId);
             if (itemIndex > -1) {
                 // Item sudah ada, tingkatkan kuantitasnya
