@@ -48,7 +48,7 @@ header {
 .navbar {
     position: relative;
     top: 0;
-    left: 120px;
+    left: 100px;
     width: 100%;
     background-color: transparent;
     padding: 15px 0;
@@ -72,7 +72,7 @@ header {
 
 /* style untuk item-item navbar */
 .nav-list li {
-    margin-right: 70px; 
+    margin-right: 50px;
 }
 
 /* style untuk link dalam navbar */
@@ -544,10 +544,6 @@ header {
     text-align: center;
     width: 20%;
     margin-left: 20px;
-    cursor: pointer;
-}
-.store-card :hover{
-    transform: scale(0.98);
 }
 
 .store-card img {
@@ -703,17 +699,4 @@ p {
 .socialmedia .contactusinfo{
     margin-top: 100px;
     display: block;
-}
-
-.btn{
-    background: transparent;
-    border: none;
-    margin: 87px;
-    font-size: 88px;
-    outline: none;
-    color: grey;
-}
-
-.btn i:hover{
-    cursor: pointer;
 }
