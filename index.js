@@ -13,7 +13,6 @@ const session = require('express-session');
 // //MongoDB user
 const User = require('./views/Register_login/schema_register/schema');
 require('./views/db_config/mongoose')
-require('./views/Register_login/db_config/mongoose')
 
 //Cart
 const Cart = require('./views/cart/schema_cart');
@@ -65,24 +64,15 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 
-app.get('/', (request, response) => {
-    response.render('index', { title: 'Golden Grain', user: request.user }); // request.user akan berisi informasi pengguna yang login
 app.get('/', (request,response)=>{
-    response.render('index', { title: 'Golden Grain', user: request.user }); // request.user akan berisi informasi pengguna yang login
-})
-
-app.get('/home', (request, response) => {
     response.render('index', { title: 'Golden Grain', user: request.user });
+})
 app.get('/home', (request, response)=>{
     response.render('index', {title: 'Golden Grain', user: request.user});
 })
-
-app.get('/aboutus', (request, response) => {
-    response.render('aboutus', { title: 'About Us', user: request.user });
 app.get('/aboutus', (request, response)=>{
     response.render('aboutus', {title: 'About Us', user: request.user});
 })
-
 app.get('/creations', (request,response)=>{
     response.render('creations', {title: 'The Creations', user: request.user})
 })
@@ -94,9 +84,6 @@ app.get('/shopnow', (request,response)=>{
 app.get('/promo', (request,response)=>{
     response.render('promo', {title: 'Promo', user: request.user})
 })
-
-app.get('/location', (req, res) => {
-    res.render('location', { title: 'Location', user: req.user })
 app.get('/contactus', (request,response)=>{
     response.render('contactus', {title: 'Contact Us', user: request.user})
 })
@@ -113,8 +100,6 @@ app.get('/login', checkNotAuthenticated, (request, response) => {
     response.render('Register_login/login', { title: 'Login' })
 })
 
-//Post Register
-app.post('/register', async (req, res) => {
 //Post Register
 app.post('/register', async(req, res)=>{
     try {
@@ -153,18 +138,6 @@ app.get('/logout', (req, res) => {
     });
 });
 
-
-app.listen(port, ()=>{
-    console.log("Server menyala di port 3000");
-})
-
-
-//Logout
-app.get('/logout', (req, res) => {
-    req.logout(() => {
-        res.redirect('/');
-    });
-});
 
 //cart Post
 app.post('/add-to-cart', async (req, res) => {
