@@ -10,12 +10,19 @@ const path = require('path')
 const bcrypt = require('bcrypt');
 const flash = require('express-flash');
 const session = require('express-session');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 // //MongoDB user
 const User = require('./views/Register_login/schema_register/schema');
 require('./views/db_config/mongoose')
 
 //Cart
 const Cart = require('./views/cart/schema_cart');
+
+//admin
+const fs = require('fs').promises;
+const Product = require('./views/admin/product_schema');
+
 
 // passport
 const passport = require('passport')
@@ -53,6 +60,11 @@ app.set('view engine', 'ejs');
 app.use(express.static('views'));
 app.use(express.static('views/Register_login'));
 app.use(express.static('views/cart'));
+
+//Menyediakan akses ke file-file yang terdapat di direktori 'uploads'
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+//mengurai body dari permintaan HTTP
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
@@ -92,10 +104,12 @@ app.get('/location', (req,res)=>{
     res.render('location', {title: 'Location', user: req.user})
 })
 
-//get Register and login
+//get Register
 app.get('/register', (request, response) => {
     response.render('Register_login/register', { title: 'Register' })
 })
+
+//get Login
 app.get('/login', checkNotAuthenticated, (request, response) => {
     response.render('Register_login/login', { title: 'Login' })
 })
@@ -136,6 +150,62 @@ app.get('/logout', (req, res) => {
     req.logout(() => {
         res.redirect('/');
     });
+});
+
+//Admin.get database
+app.get('/admin', (request,response)=>{
+    response.render('admin/admin');
+})
+
+//admin.post database
+app.post('/admin/add-product', upload.single('image'), async (req, res) => {
+    try {
+        const { name, price } = req.body;
+        const image = req.file;
+        if (!image) {
+            throw new Error('Image file is required.');
+        }
+        const imagePath = `/uploads/${image.filename}`;
+
+        // Baca produk yang ada dari file JSON
+        const fileProductsRaw = await fs.readFile('views/cart/products.json', 'utf8');
+        const fileProducts = JSON.parse(fileProductsRaw);
+
+        // Get ID tertinggi dari the database
+        const lastDbProduct = await Product.findOne().sort({id: -1});
+
+        // Tentukan ID maksimum yang digunakan di barang sebelumnya
+        const maxFileId = fileProducts.length > 0 ? Math.max(...fileProducts.map(p => p.id)) : 0;
+        const newId = Math.max(maxFileId, lastDbProduct ? lastDbProduct.id : 0) + 1;
+
+        // Buat produk baru dengan ID berikutnya
+        const newProduct = await Product.create({ id: newId, name, price, image: imagePath });
+        res.status(200).json(newProduct);
+    } catch (error) {
+        console.error('Error in /admin/add-product:', error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+//admin.get upload product
+app.get('/api/products', async (req, res) => {
+    try {
+        // Fetch products dari database
+        const dbProducts = await Product.find();
+
+        // membaca produk dari file product.json
+        const fileProductsRaw = await fs.readFile('views/cart/products.json', 'utf8');
+        const fileProducts = JSON.parse(fileProductsRaw);
+
+        // Gabungkan kedua set produk
+        const combinedProducts = [...fileProducts, ...dbProducts.map(product => product.toObject())];
+
+        res.json(combinedProducts);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 
@@ -243,6 +313,7 @@ app.post('/remove-from-cart', async (req, res) => {
 
 
 
+
 app.listen(port, () => {
-    console.log(`Server connect on port ${port}`);
+    console.log(`Server connect on port ${port}`);
 })

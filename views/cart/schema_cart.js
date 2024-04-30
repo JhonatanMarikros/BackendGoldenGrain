@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const cartItemSchema = new mongoose.Schema({
-    productId: String, // ubah ini dari ObjectId menjadi String
+    productId: String,
     quantity: Number,
     dateAdded: { type: Date, default: Date.now }
 });
