@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <ul>
+      <li><a href="/admin">Products</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <h2>Dashboard</h2>
+    <p>Welcome to the admin dashboard.</p>
+    <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+      <label for="image">Image:</label>
+      <input type="file" name="image" required>
+      
+      <label for="name">Name:</label>
+      <input type="text" name="name" style="width: 100%" required>
+
+      <label for="price">Price:</label>
+      <input type="text" name="price" style="width: 100%" required>
+      
+      <button type="submit">Add</button>
+    </form>
+    
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -16,24 +16,19 @@ closeCart.addEventListener('click', () => {
 })
 
 const addDataToHTML = () => {
-    // remove datas default from HTML
+    products.forEach(product => {
+        let newProduct = document.createElement('div');
+        newProduct.dataset.id = product.id;
+        newProduct.classList.add('item');
+        newProduct.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h2>${product.name}</h2>
+            <div class="price">$${product.price}</div>
+            <button class="addCart">Add To Cart</button>`;
+        listProductHTML.appendChild(newProduct);
+    });
+};
 
-    // add new datas
-    if (products.length > 0) // if has data
-    {
-        products.forEach(product => {
-            let newProduct = document.createElement('div');
-            newProduct.dataset.id = product.id;
-            newProduct.classList.add('item');
-            newProduct.innerHTML =
-                `<img src="${product.image}" alt="">
-                <h2>${product.name}</h2>
-                <div class="price">$${product.price}</div>
-                <button class="addCart">Add To Cart</button>`;
-            listProductHTML.appendChild(newProduct);
-        });
-    }
-}
 listProductHTML.addEventListener('click', (event) => {
     let positionClick = event.target;
     if (positionClick.classList.contains('addCart')) {
@@ -85,7 +80,7 @@ const sendCartData = (productId, quantity) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json(); // atau `response.text()` jika server mengembalikan teks
+            return response.json(); // atau response.text() jika server mengembalikan teks
         })
         .then(data => {
             console.log('Item added to cart:', data);
@@ -153,15 +148,15 @@ const changeQuantityCart = (product_id, type) => {
     if (positionItemInCart >= 0) {
         if (type === 'plus') {
             cart[positionItemInCart].quantity += 1;
+            updateCartData(product_id, cart[positionItemInCart].quantity);
         } else {
             if (cart[positionItemInCart].quantity > 1) {
                 cart[positionItemInCart].quantity -= 1;
             } else {
                 // Jika kuantitas menjadi 0, hapus item dari array
                 cart.splice(positionItemInCart, 1);
-                // Juga hapus item dari keranjang di server
+                // hapus item dari keranjang di server
                 removeFromCart(product_id);
-                return; // Hentikan eksekusi fungsi lebih lanjut
             }
         }
         // Perbarui UI dan localStorage
@@ -174,30 +169,29 @@ const changeQuantityCart = (product_id, type) => {
 
 // Fungsi untuk mengirim data keranjang yang diperbarui ke server
 const updateCartData = (productId, quantity) => {
-    // Endpoint '/update-cart-item' harus ada di server Anda dan mampu menangani POST request untuk update
     fetch('/update-cart-item', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // Tambahkan header untuk autentikasi jika diperlukan
         },
         body: JSON.stringify({
             productId: productId,
             quantity: quantity
         })
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Cart updated:', data);
-    })
-    .catch(error => {
-        console.error('Could not update cart item:', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Cart updated:', data);
+            addCartToHTML(); // memastikan memperbarui UI setelah server mengonfirmasi pembaruan
+        })
+        .catch(error => {
+            console.error('Could not update cart item:', error);
+        });
 };
 
 // Fungsi untuk menghapus item dari keranjang pada server
@@ -209,54 +203,38 @@ const removeFromCart = (productId) => {
         },
         body: JSON.stringify({ productId })
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Item removed from cart:', data);
-        // Hapus item dari array 'cart' di sisi klien
-        cart = cart.filter(item => item.product_id != productId);
-        // Update UI setelah penghapusan
-        addCartToHTML();
-        // Update localStorage
-        addCartToMemory();
-    })
-    .catch(error => {
-        console.error('Failed to remove item from cart:', error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to remove item from cart');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Item removed from cart:', data);
+            addCartToHTML(); // Perbarui UI setelah server mengonfirmasi penghapusan
+            addCartToMemory(); // Perbarui Penyimpanan lokal
+        })
+        .catch(error => {
+            console.error('Failed to remove item from cart:', error);
+        });
 };
-// document.addEventListener('click', (event) => {
-//     if (event.target.classList.contains('addCart')) {
-//         const productId = event.target.parentElement.dataset.id;
-//         const quantity = 1; // Misalnya setiap klik menambahkan satu item
-
-//         fetch('/add-to-cart', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({ productId, quantity })
-//         })
-
-//             .then(response => response.text())
-//             .then(data => {
-//                 console.log(data); // Log response dari server
-//             });
-//     }
-// });
 
 
 const initApp = () => {
     // get data product
-    fetch('products.json')
+    fetch('/api/products')
         .then(response => response.json())
         .then(data => {
             products = data;
             addDataToHTML();
 
-            // get data cart from memory
+            // Menangani data keranjang yang ada
             if (localStorage.getItem('cart')) {
                 cart = JSON.parse(localStorage.getItem('cart'));
                 addCartToHTML();
             }
         })
+        .catch(error => console.error('Failed to fetch products:', error));
+
 }
 initApp();
