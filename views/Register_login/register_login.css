@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    background-image: url('../img/Elegant_white.jpg');
 }
 
 .container {
@@ -15,6 +16,10 @@ body {
 .header {
     text-align: center;
     line-height: 80px;
+    font-size: 25px;
+}
+
+.ri-user-line {
     font-size: 25px;
 }
 

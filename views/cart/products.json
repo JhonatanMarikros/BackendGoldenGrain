@@ -1,50 +1,50 @@
 [
     {
         "id": 1,
-        "name":" LD01 LOUNGE CHAIR",
-        "price": 200,
+        "name":"CORNETTI",
+        "price": 20000,
         "image": "image/1.png"
     },
     {
         "id": 2,
-        "name":" LD02 LOUNGE CHAIR",
-        "price": 250,
+        "name":"CREAMPUFF",
+        "price": 25000,
         "image": "image/2.png"
     },
     {
         "id": 3,
-        "name":" LD03 LOUNGE CHAIR",
-        "price": 290,
+        "name":"PASTRY",
+        "price": 29000,
         "image": "image/3.png"
     },
     {
         "id": 4,
-        "name":" LD04 LOUNGE CHAIR",
-        "price": 200,
+        "name":"CROMBOLONI",
+        "price": 20000,
         "image": "image/4.png"
     },
     {
         "id": 5,
-        "name":" LD05 LOUNGE CHAIR",
-        "price": 300,
+        "name":"PUFF PASTRY",
+        "price": 30000,
         "image": "image/5.png"
     },
     {
         "id": 6,
-        "name":" LD06 LOUNGE CHAIR",
-        "price": 200,
+        "name":"ISOLED PASTRY PUFF",
+        "price": 20000,
         "image": "image/6.png"
     },
     {
         "id": 7,
-        "name":" LD07 LOUNGE CHAIR",
-        "price": 200,
+        "name":"BAKERS DELIGHT",
+        "price": 20000,
         "image": "image/7.png"
     },
     {
         "id": 8,
-        "name":" LD08 LOUNGE CHAIR",
-        "price": 200,
+        "name":"PAIN AU CHOCOLATE",
+        "price": 20000,
         "image": "image/8.png"
     }
 
