@@ -20,7 +20,7 @@
                     <% if (user) { %> <!-- Tambahkan kondisi ini untuk memeriksa apakah ada pengguna yang login -->
                         <li><a href="/register"><i class="ri-user-line"></i> <%= user.name %></a></li>
                     <% } else { %> <!-- Jika tidak ada pengguna yang login, tampilkan tombol login -->
-                        <li><a href="/register"><i class="ri-user-line"></i> LOGIN</a></li>
+                        <li><a href="/login"><i class="ri-user-line"></i> LOGIN</a></li>
                     <% } %>
                     <% if (user) { %>
                         <li><a href="/logout"><i class="ri-logout-box-r-line"></i> Logout</a></li>

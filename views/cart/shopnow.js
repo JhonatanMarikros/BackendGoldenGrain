@@ -4,9 +4,13 @@ let iconCart = document.querySelector('.icon-cart');
 let iconCartSpan = document.querySelector('.icon-cart span');
 let body = document.querySelector('body');
 let closeCart = document.querySelector('.close');
+let backbutton = document.querySelector('.back-button');
 let products = [];
 let cart = [];
 
+backbutton.addEventListener('click', () => {
+    window.location.href='/';
+});
 
 iconCart.addEventListener('click', () => {
     body.classList.toggle('showCart');
@@ -23,7 +27,7 @@ const addDataToHTML = () => {
         newProduct.innerHTML = `
             <img src="${product.image}" alt="${product.name}">
             <h2>${product.name}</h2>
-            <div class="price">$${product.price}</div>
+            <div class="price">Rp.${product.price}</div>
             <button class="addCart">Add To Cart</button>`;
         listProductHTML.appendChild(newProduct);
     });
@@ -118,7 +122,7 @@ const addCartToHTML = () => {
                 <div class="name">
                 ${info.name}
                 </div>
-                <div class="totalPrice">$${info.price * item.quantity}</div>
+                <div class="totalPrice">Rp.${info.price * item.quantity}</div>
                 <div class="quantity">
                     <span class="minus"><</span>
                     <span>${item.quantity}</span>

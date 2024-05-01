@@ -67,7 +67,7 @@ form textarea {
 }
 
 form textarea {
-    resize: vertical; /* Allows vertical resizing */
+    resize: vertical;
 }
 
 form button {

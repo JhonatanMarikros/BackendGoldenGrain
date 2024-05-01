@@ -75,6 +75,20 @@ function checkNotAuthenticated(req, res, next) {
     next();
 }
 
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
+
+function checkAdmin(req, res, next) {
+    if (req.user.email === "admin123@gmail.com") {
+        return next();
+    }
+    res.redirect('/');
+}
+
 
 app.get('/', (request,response)=>{
     response.render('index', { title: 'Golden Grain', user: request.user });
@@ -89,7 +103,7 @@ app.get('/creations', (request,response)=>{
     response.render('creations', {title: 'The Creations', user: request.user})
 })
 
-app.get('/shopnow', (request,response)=>{
+app.get('/shopnow', checkAuthenticated, (request,response)=>{
     response.render('cart/shopnow', {title: 'Shop Now', user: request.user})
 })
 
@@ -139,9 +153,11 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
 }), (req, res) => {
-    console.log(req.body.email);
-    console.log(req.body.password);
-    res.redirect('/');
+    if (req.user.email === "admin123@gmail.com") {
+        res.redirect('/admin'); // redirect ke admin page
+    } else {
+        res.redirect('/home');  // Redirect ke page utama
+    }
 });
 
 
@@ -152,8 +168,8 @@ app.get('/logout', (req, res) => {
     });
 });
 
-//Admin.get database
-app.get('/admin', (request,response)=>{
+//Admin.get
+app.get('/admin', checkAuthenticated, checkAdmin, (request,response)=>{
     response.render('admin/admin');
 })
 
@@ -180,9 +196,9 @@ app.post('/admin/add-product', upload.single('image'), async (req, res) => {
 
         // Buat produk baru dengan ID berikutnya
         const newProduct = await Product.create({ id: newId, name, price, image: imagePath });
-        res.status(200).json(newProduct);
+        await newProduct.save();
+        res.redirect('/admin');
     } catch (error) {
-        console.error('Error in /admin/add-product:', error);
         res.status(500).send("Internal Server Error");
     }
 });
@@ -203,7 +219,6 @@ app.get('/api/products', async (req, res) => {
 
         res.json(combinedProducts);
     } catch (error) {
-        console.error('Error fetching products:', error);
         res.status(500).send("Internal Server Error");
     }
 });
@@ -239,7 +254,6 @@ app.post('/add-to-cart', async (req, res) => {
         await cart.save();
         res.status(200).json(cart);
     } catch (error) {
-        console.error('Error adding item to cart:', error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -281,7 +295,6 @@ app.post('/update-cart-item', async (req, res) => {
         await cart.save();
         res.status(200).json(cart);
     } catch (error) {
-        console.error('Error updating cart item:', error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -306,14 +319,10 @@ app.post('/remove-from-cart', async (req, res) => {
         await cart.save();
         res.status(200).json(cart);
     } catch (error) {
-        console.error('Error removing item from cart:', error);
         res.status(500).send('Internal Server Error');
     }
 });
 
-
-
-
 app.listen(port, () => {
-    console.log(`Server connect on port ${port}`);
+    console.log(`Server connect on port ${port}`);
 })
