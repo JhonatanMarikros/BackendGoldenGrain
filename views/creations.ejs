@@ -41,104 +41,17 @@
                     <h3> Our Store </h3>
                 </section>
             </div>
+            <div class="like">
+                <i class="ri-heart-line"></i>
+            </div>
             <div class="store-cards">
-                <div class="store-card">
-                    <img src="img/pastry1.png" alt="">
-                        <Button onclick="Toggle1()" id="btnh1" class="btn"><i class="ri-heart-fill"></i></Button>
-
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry2.png" alt="">
-                    <Button onclick="Toggle2()" id="btnh2" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry3.png" alt="">
-                    <Button onclick="Toggle3()" id="btnh3" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry4.png" alt="">
-                    <Button onclick="Toggle4()" id="btnh4" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry5.png" alt="">
-                    <Button onclick="Toggle5()" id="btnh5" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry6.png" alt="">
-                    <Button onclick="Toggle6()" id="btnh6" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry7.png" alt="">
-                    <Button onclick="Toggle7()" id="btnh7" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry8.png" alt="">
-                    <Button onclick="Toggle8()" id="btnh8" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry9.png" alt="">
-                    <Button onclick="Toggle9()" id="btnh9" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry10.png" alt="">
-                    <Button onclick="Toggle10()" id="btnh10" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry11.png" alt="">
-                    <Button onclick="Toggle11()" id="btnh11" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry12.png" alt="">
-                    <Button onclick="Toggle12()" id="btnh12" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry13.png" alt="">
-                    <Button onclick="Toggle13()" id="btnh13" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry14.png" alt="">
-                    <Button onclick="Toggle14()" id="btnh14" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry15.png" alt="">
-                    <Button onclick="Toggle15()" id="btnh15" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry16.png" alt="">
-                    <Button onclick="Toggle16()" id="btnh16" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry17.png" alt="">
-                    <Button onclick="Toggle17()" id="btnh17" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry18.png" alt="">
-                    <Button onclick="Toggle18()" id="btnh18" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry19.png" alt="">
-                    <Button onclick="Toggle19()" id="btnh19" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry20.png" alt="">
-                    <Button onclick="Toggle20()" id="btnh20" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry21.png" alt="">
-                    <Button onclick="Toggle21()" id="btnh21" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry22.png" alt="">
-                    <Button onclick="Toggle22()" id="btnh22" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry23.png" alt="">
-                    <Button onclick="Toggle23()" id="btnh23" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
-                <div class="store-card">
-                    <img src="img/pastry24.png" alt="">
-                    <Button onclick="Toggle24()" id="btnh24" class="btn"><i class="ri-heart-fill"></i></Button>
-                </div>
+                <% items.forEach(item => { %>
+                    <div class="store-card">
+                        <img src="<%= item.imagePath %>" alt="">
+                        <span class="nama"><%= item.name %></span>
+                        <button id="btnh<%= item._id %>" id="liked-items-container" class="like-button" data-item-id="<%= item._id %>"><i class="ri-heart-fill"></i></button>
+                    </div>
+                <% }) %>
             </div>
         </section>
     </div>

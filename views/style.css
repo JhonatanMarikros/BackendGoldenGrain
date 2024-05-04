@@ -534,6 +534,16 @@ header {
     margin: 20px 0px 0px 470px;
 }
 
+.ri-heart-line{
+    margin-left: 350px;
+    font-size: 40px;
+}
+
+.like-button{
+    background-color: #fff;
+    border: none;
+}
+
 .store-cards {  
     display: flex;
     flex-wrap: wrap;

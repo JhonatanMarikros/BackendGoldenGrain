@@ -45,26 +45,23 @@ let isAddingToCart = false;
 
 // Fungsi untuk menambahkan barang ke keranjang dan mengirim ke server
 const addToCart = (productId) => {
-    let productInCart = cart.find((item) => item.product_id == productId);
+    let product = products.find((p) => p.id.toString() === productId.toString());
+    let productInCart = cart.find((item) => item.product_id === productId);
 
     if (productInCart) {
-        // Jika produk sudah ada di keranjang, hanya tingkatkan kuantitasnya sebanyak satu
         productInCart.quantity += 1;
     } else {
-        // Jika produk belum ada di keranjang, tambahkan sebagai item baru dengan kuantitas 1
         cart.push({
             product_id: productId,
-            quantity: 1
+            quantity: 1,
+            price: product.price
         });
     }
-
-    // Memperbarui tampilan keranjang di HTML dan localStorage
     addCartToHTML();
     addCartToMemory();
-
-    // Mengirim data ke server
-    sendCartData(productId, 1); // Kirim selalu 1 karena kita menambahkan satu produk pada suatu waktu
+    sendCartData(productId, 1);
 };
+
 
 
 // Fungsi untuk mengirim data keranjang ke server
@@ -73,7 +70,6 @@ const sendCartData = (productId, quantity) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // Pastikan Anda mengirimkan token atau sesi yang diperlukan untuk autentikasi jika diperlukan
         },
         body: JSON.stringify({
             productId: productId,
@@ -84,11 +80,10 @@ const sendCartData = (productId, quantity) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json(); // atau response.text() jika server mengembalikan teks
+            return response.json();
         })
         .then(data => {
             console.log('Item added to cart:', data);
-            // Anda bisa memperbarui tampilan keranjang di sini jika server mengembalikan data keranjang terbaru
         })
         .catch(error => {
             console.error('Could not add item to cart:', error);
@@ -105,34 +100,39 @@ const addCartToMemory = () => {
 const addCartToHTML = () => {
     listCartHTML.innerHTML = '';
     let totalQuantity = 0;
+    let totalPrice = 0;
     if (cart.length > 0) {
         cart.forEach(item => {
-            totalQuantity = totalQuantity + item.quantity;
+            totalQuantity += item.quantity;
+            let positionProduct = products.findIndex((value) => value.id == item.product_id);
+            let info = products[positionProduct];
+            let itemTotalPrice = item.quantity * info.price;
+            totalPrice += itemTotalPrice;
+
             let newItem = document.createElement('div');
             newItem.classList.add('item');
             newItem.dataset.id = item.product_id;
-
-            let positionProduct = products.findIndex((value) => value.id == item.product_id);
-            let info = products[positionProduct];
             listCartHTML.appendChild(newItem);
             newItem.innerHTML = `
-            <div class="image">
+                <div class="image">
                     <img src="${info.image}">
                 </div>
                 <div class="name">
-                ${info.name}
+                    ${info.name}
                 </div>
-                <div class="totalPrice">Rp.${info.price * item.quantity}</div>
+                <div class="totalPrice">Rp.${itemTotalPrice.toLocaleString()}</div>
                 <div class="quantity">
                     <span class="minus"><</span>
                     <span>${item.quantity}</span>
                     <span class="plus">></span>
                 </div>
             `;
-        })
+        });
     }
     iconCartSpan.innerText = totalQuantity;
+    document.getElementById('totalPriceDisplay').innerText = `Rp.${totalPrice.toLocaleString()}`;
 }
+
 
 listCartHTML.addEventListener('click', (event) => {
     let positionClick = event.target;
@@ -163,7 +163,6 @@ const changeQuantityCart = (product_id, type) => {
                 removeFromCart(product_id);
             }
         }
-        // Perbarui UI dan localStorage
         addCartToHTML();
         addCartToMemory();
         // Kirim data yang diperbarui ke server
@@ -215,13 +214,70 @@ const removeFromCart = (productId) => {
         })
         .then(data => {
             console.log('Item removed from cart:', data);
-            addCartToHTML(); // Perbarui UI setelah server mengonfirmasi penghapusan
-            addCartToMemory(); // Perbarui Penyimpanan lokal
+            addCartToHTML();
+            addCartToMemory();
         })
         .catch(error => {
             console.error('Failed to remove item from cart:', error);
         });
 };
+
+
+// Fungsi untuk menampilkan data di moodel konfirmasi pembayaran
+function showConfirmationPayment() {
+    const username = sessionStorage.getItem('username');
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    if (!cart || cart.length === 0) {
+        alert('Keranjang belanja kosong');
+        return;
+    }
+
+    console.log("Cart Items:", cart);
+
+    cart.forEach(item => {
+        totalQuantity += item.quantity;
+        totalPrice += item.quantity * item.price;
+        console.log(`Calculating: ${item.quantity} * ${item.price}`);
+    });
+
+    document.getElementById('usernameDisplay').innerText = username;
+    document.getElementById('quantityDisplay').innerText = totalQuantity;
+    document.getElementById('totalPriceDisplay').innerText = `${totalPrice.toLocaleString()}`;
+    document.getElementById('paymentConfirmation').style.display = 'block';
+}
+
+// Tambahkan event listener untuk tombol Check Out
+document.querySelector('.checkOut').addEventListener('click', showConfirmationPayment);
+
+
+var closeButton = document.querySelector('.closePayment');
+  var payment = document.getElementById('paymentConfirmation');
+
+  closeButton.addEventListener('click', function() {
+    payment.style.display = 'none';
+  });
+
+// Event listener untuk submit pembayaran
+document.getElementById('submitPayment').addEventListener('click', function() {
+    fetch('/clear-cart', {
+        method: 'POST'
+    }).then(response => {
+        if (response.ok) {
+            alert('Pembayaran berhasil!');
+            localStorage.removeItem('cart');
+            location.reload(); // Reload atau redirect
+        } else {
+            alert('Gagal memproses pembayaran.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+  
 
 
 const initApp = () => {
@@ -231,8 +287,6 @@ const initApp = () => {
         .then(data => {
             products = data;
             addDataToHTML();
-
-            // Menangani data keranjang yang ada
             if (localStorage.getItem('cart')) {
                 cart = JSON.parse(localStorage.getItem('cart'));
                 addCartToHTML();
