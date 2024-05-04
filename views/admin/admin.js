@@ -4,7 +4,7 @@ document.getElementById('product-form').addEventListener('submit', function(e) {
     let formData = new FormData(this);
     fetch('/admin/add-product', {
         method: 'POST',
-        body: formData // input file Anda, nama, dan harga
+        body: formData
     })
     .then(response => response.json())
     .then(data => {

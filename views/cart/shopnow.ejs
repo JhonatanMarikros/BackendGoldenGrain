@@ -34,6 +34,23 @@
         </div>
     </div>
 
+    <!-- Pop-up Modal untuk Konfirmasi Pembayaran -->
+<div id="paymentConfirmation" class="modal">
+<div class="modal-content">
+  <span class="closePayment">&times;</span>
+  <h2>Konfirmasi Pembayaran</h2>
+  <% if (user) { %>
+    <p>Username: <span id="usernameDisplay"></span> <%= user.name %></p>
+<% } else { %>
+    <p>Username: Guest</p>
+         <% } %>
+  <p>Jumlah Barang: <span id="quantityDisplay"></span></p>
+  <p>Harga Total: Rp<span id="totalPriceDisplay"></span></p>
+  <button id="submitPayment">Submit Payment</button>
+</div>
+</div>
+
+
     <script src="shopnow.js"></script>
 </body>
 </html>
