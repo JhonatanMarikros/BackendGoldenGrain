@@ -1,16 +1,18 @@
 body {
     margin: 0;
-    background-image: url('../img/Elegant_white.jpg');
+    background-image: url('../img/background_coba.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .container {
     width: 450px;
     height: 500px;
     margin: 100px auto;
-    background-color: white;
     box-shadow: 5px 5px 5px 3px rgba(0, 0, 0, .5);
     border-top: 2px solid black;
     border-left: 2px solid black;
+    font-weight: bold;
 }
 
 .header {
