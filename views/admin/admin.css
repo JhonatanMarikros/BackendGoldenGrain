@@ -17,6 +17,16 @@ body {
     text-align: center;
 }
 
+.logo{
+    width: 70px;
+    height: 70px;
+    margin-left: 65px;
+}
+
+.admin{
+    margin-right: 50px;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
@@ -36,6 +46,7 @@ ul li a:hover {
 }
 
 .content {
+    height: 690px;
     margin-left: 250px;
     padding: 20px;
 }
